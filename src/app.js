@@ -36,9 +36,43 @@ const doUserTask = async (cloudClient) => {
   );
   const result = (await Promise.all(tasks)).map(
     (res) =>
-      `个人任务${res.isSign ? "已经签到过了，" : ""}签到获得${
+      `个人任务${res.isUsed ? "已经签到过了，" : ""}签到获得${
         res.netdiskBonus
       }M空间`
+  );
+  return result;
+};
+
+// 任务 2.抽奖
+const doTaskSign = async (cloudClient) => {
+  const tasks = Array.from({ length: execThreshold }, () =>
+    cloudClient.taskSign()
+  );
+  const result = (await Promise.all(tasks)).map(
+    (res) =>
+      `${!res.isUsed ? "已抽过" : ("抽奖获得:" + res.prizeName)}`
+  );
+  return result;
+};
+// 任务 3.抽奖
+const doTaskPhoto = async (cloudClient) => {
+  const tasks = Array.from({ length: execThreshold }, () =>
+    cloudClient.taskPhoto()
+  );
+  const result = (await Promise.all(tasks)).map(
+    (res) =>
+      `${!res.isUsed ? "已抽过" : ("抽奖获得:" + res.prizeName)}`
+  );
+  return result;
+};
+// 任务 3.抽奖
+const doTaskKJ = async (cloudClient) => {
+  const tasks = Array.from({ length: execThreshold }, () =>
+    cloudClient.taskKJ()
+  );
+  const result = (await Promise.all(tasks)).map(
+    (res) =>
+      `${!res.isUsed ? "已抽过" : ("抽奖获得:" + res.prizeName)}`
   );
   return result;
 };
@@ -247,6 +281,12 @@ async function main() {
         result.forEach((r) => logger.log(r));
         const familyResult = await doFamilyTask(cloudClient);
         familyResult.forEach((r) => logger.log(r));
+        const taskSignRes = await doTaskSign(cloudClient);
+        taskSignRes.forEach((r) => logger.log(r));
+        const taskPhotoRes = await doTaskPhoto(cloudClient);
+        taskPhotoRes.forEach((r) => logger.log(r));
+        const taskKJRes = await doTaskKJ(cloudClient);
+        taskKJRes.forEach((r) => logger.log(r));
       } catch (e) {
         logger.error(e);
         if (e.code === "ETIMEDOUT") {

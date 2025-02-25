@@ -283,10 +283,10 @@ async function main() {
         familyResult.forEach((r) => logger.log(r));
         const taskSignRes = await doTaskSign(cloudClient);
         taskSignRes.forEach((r) => logger.log(r));
-        const taskPhotoRes = await doTaskPhoto(cloudClient);
-        taskPhotoRes.forEach((r) => logger.log(r));
-        const taskKJRes = await doTaskKJ(cloudClient);
-        taskKJRes.forEach((r) => logger.log(r));
+        // const taskPhotoRes = await doTaskPhoto(cloudClient);
+        // taskPhotoRes.forEach((r) => logger.log(r));
+        // const taskKJRes = await doTaskKJ(cloudClient);
+        // taskKJRes.forEach((r) => logger.log(r));
       } catch (e) {
         logger.error(e);
         if (e.code === "ETIMEDOUT") {
